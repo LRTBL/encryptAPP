@@ -1,4 +1,4 @@
-package com.aesencryption;
+package com.lerit.aesencryption;
 
 import com.facebook.react.ReactActivity;
 

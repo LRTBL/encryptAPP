@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {
   actionSetEncryptFile,
   actionClearEncryptFile,
+  actionSendEncryptFile,
 } from '../../../modules/core/general/actions';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Loader, Button, InputFile} from '../../components';
@@ -13,6 +14,7 @@ const EncryptionScreen = ({
   fileName,
   actionSetEncryptFile: setEncryptFile,
   actionClearEncryptFile: clearEncryptFile,
+  actionSendEncryptFile: sendEncryptFile,
 }) => {
   return (
     <SafeAreaView>
@@ -23,19 +25,19 @@ const EncryptionScreen = ({
           handleFile={setEncryptFile}
         />
         <Button
-          text="ELIMINAR ARCHIVO"
+          text="ELIMINAR"
           color={COLORS.lightGreen}
           disabled={fileName.length === 0}
           handlePress={clearEncryptFile}
         />
         <Button
-          text="ENCRIPTAR ARCHIVO"
+          text="ENCRIPTAR"
           color={COLORS.green}
           disabled={fileName.length === 0}
-          // handlePress={handleEncrypt}
+          handlePress={sendEncryptFile}
         />
       </ScrollView>
-      <Loader color={COLORS.green} />
+      <Loader />
     </SafeAreaView>
   );
 };
@@ -47,10 +49,5 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   actionSetEncryptFile,
   actionClearEncryptFile,
+  actionSendEncryptFile,
 })(EncryptionScreen);
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//   },
-// });

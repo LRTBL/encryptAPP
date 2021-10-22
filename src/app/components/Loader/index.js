@@ -3,11 +3,11 @@ import {View, Image, Modal, StyleSheet} from 'react-native';
 import {connect} from 'react-redux';
 import {loaderGif} from '../../../assets';
 
-const Loader = ({loading, color}) => {
+const Loader = ({loading}) => {
   return (
     <Modal transparent visible={loading}>
       <View style={styles.container}>
-        <View style={styles.loader(color)}>
+        <View style={styles.loader}>
           <Image source={loaderGif} style={styles.gif} />
         </View>
       </View>
@@ -28,13 +28,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  loader: color => ({
-    backgroundColor: color,
+  loader: {
+    backgroundColor: '#2f343a',
     padding: 15,
     borderRadius: 20,
-  }),
+  },
   gif: {
-    width: 200,
-    height: 200,
+    width: 150,
+    height: 150,
   },
 });

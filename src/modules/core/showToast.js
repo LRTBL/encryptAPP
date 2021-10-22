@@ -1,4 +1,5 @@
 import Toast from 'react-native-toast-message';
+import {Dimensions} from 'react-native';
 
 const types = {
   1: 'success',
@@ -11,7 +12,6 @@ export const showToast = ({type, text1}) => {
     type: types[type],
     text1,
     position: 'bottom',
-    bottomOffset: 120,
-    text2: 'This is some something 👋',
+    bottomOffset: Dimensions.get('screen').height * 0.12,
   });
 };

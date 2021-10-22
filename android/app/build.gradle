@@ -10,7 +10,7 @@ import com.android.build.OutputFile
  * bundle directly from the development server. Below you can see all the possible configurations
  * and their defaults. If you decide to add a configuration block, make sure to add it before the
  * `apply from: "../../node_modules/react-native/react.gradle"` line.
- *
+ * 
  * project.ext.react = [
  *   // the name of the generated asset file containing your JS bundle
  *   bundleAssetName: "index.android.bundle",
@@ -192,6 +192,8 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
+
+    implementation 'com.facebook.fresco:animated-gif:2.0.0'
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 

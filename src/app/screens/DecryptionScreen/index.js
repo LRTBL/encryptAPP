@@ -1,12 +1,53 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {ScrollView} from 'react-native';
+import {connect} from 'react-redux';
+import {
+  actionSetDecryptFile,
+  actionClearDecryptFile,
+  actionSendDecryptFile,
+} from '../../../modules/core/general/actions';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {Loader, Button, InputFile} from '../../components';
+import {STYLES_GENERAL, COLORS} from '../../styles';
 
-const DecryptionScreen = () => {
+const DecryptionScreen = ({
+  fileName,
+  actionSetDecryptFile: setDecryptFile,
+  actionClearDecryptFile: clearDecryptFile,
+  actionSendDecryptFile: sendDecryptFile,
+}) => {
   return (
-    <View>
-      <Text>Decrrption</Text>
-    </View>
+    <SafeAreaView>
+      <ScrollView style={STYLES_GENERAL.container}>
+        <InputFile
+          fileName={fileName}
+          color={COLORS.red}
+          handleFile={setDecryptFile}
+        />
+        <Button
+          text="ELIMINAR"
+          color={COLORS.lightRed}
+          disabled={fileName.length === 0}
+          handlePress={clearDecryptFile}
+        />
+        <Button
+          text="DESENCRIPTAR"
+          color={COLORS.red}
+          disabled={fileName.length === 0}
+          handlePress={sendDecryptFile}
+        />
+      </ScrollView>
+      <Loader color={COLORS.red} />
+    </SafeAreaView>
   );
 };
 
-export default DecryptionScreen;
+const mapStateToProps = state => ({
+  fileName: state.general.decryptFile.name,
+});
+
+export default connect(mapStateToProps, {
+  actionSetDecryptFile,
+  actionClearDecryptFile,
+  actionSendDecryptFile,
+})(DecryptionScreen);

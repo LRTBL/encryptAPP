@@ -1,7 +1,5 @@
 import React from 'react';
-import {Platform, Text} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {faCogs, faUnlock, faLock} from '@fortawesome/free-solid-svg-icons';

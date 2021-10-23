@@ -28,7 +28,7 @@ const SplashScreen = () => {
       <Animated.View style={{transform: [{scale: anim.current}]}}>
         <View style={styles.container}>
           <Image source={encryptedIcon} style={styles.image} />
-          <Text style={styles.text}>AES Encryptation</Text>
+          <Text style={styles.text}>AES Encryption</Text>
         </View>
       </Animated.View>
     </SafeAreaView>

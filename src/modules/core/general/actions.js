@@ -4,9 +4,9 @@ import {
   SET_ENCRYPTION_FILE,
   SET_DECRYPTION_FILE,
 } from './types';
-import {SET_LOADING} from '../ui/types';
+import {postDecryptFile, postEncryptFile} from '../../services';
+import {sendFileAbstract} from './abstract';
 import DocumentPicker from 'react-native-document-picker';
-
 import {showToast} from '../showToast';
 
 // KEY ACTIONS
@@ -56,12 +56,17 @@ export const actionClearEncryptFile = () => {
 };
 
 export const actionSendEncryptFile = () => {
-  return async dispatch => {
-    dispatch({type: SET_LOADING, payload: true});
-    setTimeout(() => {
-      dispatch({type: SET_LOADING, payload: false});
-      showToast({type: 1, text1: 'Se descargo el archivo encriptado'});
-    }, 3000);
+  return async (dispatch, getState) => {
+    const {
+      general: {publicKey, privateKey, encryptFile},
+    } = getState();
+    await sendFileAbstract({
+      dispatch,
+      file: encryptFile,
+      postFile: postEncryptFile,
+      privateKey,
+      publicKey,
+    });
   };
 };
 
@@ -93,10 +98,22 @@ export const actionClearDecryptFile = () => {
 };
 
 export const actionSendDecryptFile = () => {
-  return async dispatch => {
-    dispatch({type: SET_LOADING, payload: true});
-    setTimeout(() => {
-      dispatch({type: SET_LOADING, payload: false});
-    }, 3000);
+  return async (dispatch, getState) => {
+    const {
+      general: {publicKey, privateKey, decryptFile},
+    } = getState();
+    await sendFileAbstract({
+      dispatch,
+      file: decryptFile,
+      postFile: postDecryptFile,
+      privateKey,
+      publicKey,
+    });
+  };
+};
+
+export const actionShareFile = () => {
+  return async (dispatch, getState) => {
+    console.log('SHARE');
   };
 };

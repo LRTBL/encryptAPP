@@ -7,11 +7,12 @@ import {
   actionSendEncryptFile,
 } from '../../../modules/core/general/actions';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Loader, Button, InputFile} from '../../components';
+import {Loader, Button, InputFile, Modal} from '../../components';
 import {STYLES_GENERAL, COLORS} from '../../styles';
 
 const EncryptionScreen = ({
   fileName,
+  downloadName,
   actionSetEncryptFile: setEncryptFile,
   actionClearEncryptFile: clearEncryptFile,
   actionSendEncryptFile: sendEncryptFile,
@@ -38,12 +39,18 @@ const EncryptionScreen = ({
         />
       </ScrollView>
       <Loader />
+      <Modal
+        color={COLORS.green}
+        buttonColor={COLORS.lightGreen}
+        fileName={downloadName}
+      />
     </SafeAreaView>
   );
 };
 
 const mapStateToProps = state => ({
   fileName: state.general.encryptFile.name,
+  downloadName: state.general.downloadFile.name,
 });
 
 export default connect(mapStateToProps, {

@@ -11,4 +11,8 @@ export default {
     name: '',
     type: null,
   },
+  downloadFile: {
+    uri: '',
+    name: '',
+  },
 };

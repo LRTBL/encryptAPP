@@ -40,6 +40,7 @@ export const STYLES_GENERAL = StyleSheet.create({
   toast__text: {
     fontSize: 15,
     color: 'white',
+    fontWeight: 'bold',
   },
   toast__iconContainer: {
     width: 30,

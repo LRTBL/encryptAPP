@@ -1,8 +1,9 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
+import {connect} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {faCogs, faUnlock, faLock} from '@fortawesome/free-solid-svg-icons';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {COLORS} from '../styles';
 
@@ -13,17 +14,16 @@ import {
   SplashScreen,
 } from '../screens';
 
+import {actionGetSaveKeys} from '../../modules/core/general/actions';
+
 const Tab = createMaterialBottomTabNavigator();
 
-const App = () => {
-  const [isLoading, setIsLoading] = React.useState(true);
+const App = ({actionGetSaveKeys: getSaveKeys, loadingSplash}) => {
   React.useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 5000);
-  }, []);
+    getSaveKeys(true);
+  }, [getSaveKeys]);
 
-  if (isLoading) {
+  if (loadingSplash) {
     return <SplashScreen />;
   }
 
@@ -31,7 +31,7 @@ const App = () => {
     <SafeAreaProvider>
       <NavigationContainer>
         <Tab.Navigator
-          initialRouteName="Feed"
+          initialRouteName="Configuración"
           shifting
           inactiveColor="white"
           screenOptions={({route}) => ({
@@ -80,4 +80,8 @@ const App = () => {
   );
 };
 
-export default App;
+const mapStateToProps = state => ({
+  loadingSplash: state.ui.loadingSplash,
+});
+
+export default connect(mapStateToProps, {actionGetSaveKeys})(App);

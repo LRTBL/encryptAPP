@@ -1,33 +1,42 @@
-import axios from './axios';
+const BASE_URL = 'https://admin.lerietmall.net/v1/api/cypher';
 
-export const postEncryptFile = async ({formData, publicKey, privateKey}) => {
+export const serviceGetKeys = async () => {
   try {
-    console.log(formData);
-    const response = await axios({
-      url: '/file',
-      method: 'POST',
-      headers: {'Content-Type': 'multipart/form-data'},
-      data: {formData},
+    const response = await fetch(`${BASE_URL}/srv/file/gen_keys`, {
+      method: 'GET',
     });
-    console.log(response.data);
-    return response.data;
+    const data = await response.json();
+    return data;
   } catch (err) {
-    console.log(err);
-    console.log('lol');
-    throw new Error('Error al mandar a encriptar archivo');
+    throw new Error('Ocurrio un error al obtener llaves');
   }
 };
 
-export const postDecryptFile = async ({formData, publicKey, privateKey}) => {
+export const serviceGetSaveKeys = async () => {
   try {
-    const response = await axios({
-      url: '/',
-      method: 'POST',
-      headers: {'Content-Type': 'multipart/form-data'},
-      data: formData,
+    const response = await fetch(`${BASE_URL}/srv/file/get_keys`, {
+      method: 'GET',
     });
-    return response.data;
+    const data = await response.json();
+    return data;
   } catch (err) {
-    throw new Error('Error al mandar a desencriptar archivo');
+    throw new Error('Ocurrio un error al obtener llaves guardadas');
+  }
+};
+
+export const servicePostSaveKeys = async ({privateKey, publicKey}) => {
+  try {
+    const response = await fetch(`${BASE_URL}/srv/file/store_keys`, {
+      method: 'POST',
+      headers: {Accept: 'application/json', 'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        private_key: privateKey,
+        public_key: publicKey,
+      }),
+    });
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    throw new Error('Ocurrio un error al guardar las llaves');
   }
 };

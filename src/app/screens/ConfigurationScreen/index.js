@@ -2,6 +2,7 @@ import React from 'react';
 import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {STYLES_GENERAL, COLORS} from '../../styles';
+import {Loader} from '../../components';
 import Develop from './Depelop';
 import Keys from './Keys';
 const ConfigurationScreen = () => {
@@ -21,6 +22,7 @@ const ConfigurationScreen = () => {
         </TouchableOpacity>
       </View>
       {stateTab === 0 ? <Keys /> : <Develop />}
+      <Loader />
     </SafeAreaView>
   );
 };

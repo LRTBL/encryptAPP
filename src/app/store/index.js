@@ -11,7 +11,7 @@ const reducer = combineReducers({general, ui});
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['general'],
+  whitelist: [''],
   timeout: 0,
 };
 

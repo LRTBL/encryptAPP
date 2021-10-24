@@ -1,4 +1,4 @@
-import {SET_LOADING, SET_MODAL} from './types';
+import {SET_LOADING, SET_MODAL, SET_LOADING_SPLASH} from './types';
 
 import initialState from './initialState';
 
@@ -13,6 +13,11 @@ export default (state = initialState, {type, payload}) => {
       return {
         ...state,
         modal: payload,
+      };
+    case SET_LOADING_SPLASH:
+      return {
+        ...state,
+        loadingSplash: payload,
       };
     default:
       return state;

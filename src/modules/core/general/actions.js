@@ -4,27 +4,75 @@ import {
   SET_ENCRYPTION_FILE,
   SET_DECRYPTION_FILE,
 } from './types';
-import {postDecryptFile, postEncryptFile} from '../../services';
+import {SET_LOADING, SET_LOADING_SPLASH} from '../ui/types';
+import {
+  postDecryptFile,
+  postEncryptFile,
+  serviceGetKeys,
+  serviceGetSaveKeys,
+  servicePostSaveKeys,
+} from '../../services';
 import {sendFileAbstract} from './abstract';
 import DocumentPicker from 'react-native-document-picker';
 import {showToast} from '../showToast';
 
 // KEY ACTIONS
-export const actionSetPrivateKey = text => ({
-  type: SET_PRIVATE_KEY,
-  payload: text,
-});
 
-export const actionSetPublicKey = text => ({
-  type: SET_PUBLIC_KEY,
-  payload: text,
-});
+export const actionGenerateKeys = () => {
+  return async dispatch => {
+    dispatch({type: SET_LOADING, payload: true});
+    try {
+      const res = await serviceGetKeys();
+      dispatch({type: SET_PRIVATE_KEY, payload: res.private_key});
+      dispatch({type: SET_PUBLIC_KEY, payload: res.public_key});
+      showToast({type: 1, text1: 'Se generaron las llaves'});
+    } catch (err) {
+      showToast({type: 2, text1: err.message});
+    }
+    dispatch({type: SET_LOADING, payload: false});
+  };
+};
 
-export const actionClearKeys = () => {
-  return dispatch => {
-    dispatch({type: SET_PRIVATE_KEY, payload: ''});
-    dispatch({type: SET_PUBLIC_KEY, payload: ''});
-    showToast({type: 1, text1: 'Las llaves se elimaron'});
+export const actionGetSaveKeys = splash => {
+  return async dispatch => {
+    const typeAction = splash ? SET_LOADING_SPLASH : SET_LOADING;
+    dispatch({type: typeAction, payload: true});
+    try {
+      const res = await serviceGetSaveKeys();
+      if (res.success) {
+        const privateKey = res.keys.find(e => e.type === 'private');
+        const publicKey = res.keys.find(e => e.type === 'public');
+        dispatch({type: SET_PRIVATE_KEY, payload: privateKey.key});
+        dispatch({type: SET_PUBLIC_KEY, payload: publicKey.key});
+        !splash &&
+          showToast({type: 1, text1: 'Se obtuvieron las llaves almacenadas'});
+      } else {
+        showToast({type: 2, text1: res.message});
+      }
+    } catch (err) {
+      showToast({type: 2, text1: err.message});
+    }
+    dispatch({type: typeAction, payload: false});
+  };
+};
+
+export const actionSaveKeys = () => {
+  return async (dispatch, getState) => {
+    dispatch({type: SET_LOADING, payload: true});
+    try {
+      const {
+        general: {privateKey, publicKey},
+      } = getState();
+      const res = await servicePostSaveKeys({privateKey, publicKey});
+      if (res.success) {
+        showToast({type: 1, text1: res.message});
+      } else {
+        showToast({type: 2, text1: 'Ocurrio un error al guardar llaves'});
+      }
+    } catch (err) {
+      showToast({type: 2, text1: err.message});
+    }
+    dispatch({type: SET_LOADING, payload: false});
   };
 };
 

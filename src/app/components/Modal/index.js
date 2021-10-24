@@ -28,11 +28,11 @@ const ModalCustom = ({
             <TouchableOpacity style={styles.ok} onPress={hiddeModal}>
               <Text>OK</Text>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.share(buttonColor)}
               onPress={shareFile}>
               <Text>COMPARTIR</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
       </View>
@@ -79,9 +79,10 @@ const styles = StyleSheet.create({
   ok: {
     alignItems: 'center',
     backgroundColor: 'white',
-    width: '50%',
+    width: '100%',
     paddingVertical: 10,
     borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
   share: buttonColor => ({
     alignItems: 'center',

@@ -6,12 +6,12 @@ import {
 } from './types';
 import {SET_LOADING, SET_LOADING_SPLASH} from '../ui/types';
 import {
-  postDecryptFile,
-  postEncryptFile,
   serviceGetKeys,
   serviceGetSaveKeys,
   servicePostSaveKeys,
 } from '../../services';
+import {handleShare} from '../../utils/shareFile';
+import {handleMime} from '../../utils/mimeType';
 import {sendFileAbstract} from './abstract';
 import DocumentPicker from 'react-native-document-picker';
 import {showToast} from '../showToast';
@@ -111,7 +111,7 @@ export const actionSendEncryptFile = () => {
     await sendFileAbstract({
       dispatch,
       file: encryptFile,
-      postFile: postEncryptFile,
+      typeService: 'encrypt',
       privateKey,
       publicKey,
     });
@@ -153,7 +153,7 @@ export const actionSendDecryptFile = () => {
     await sendFileAbstract({
       dispatch,
       file: decryptFile,
-      postFile: postDecryptFile,
+      typeService: 'decrypt',
       privateKey,
       publicKey,
     });
@@ -161,7 +161,14 @@ export const actionSendDecryptFile = () => {
 };
 
 export const actionShareFile = () => {
-  return async (dispatch, getState) => {
-    console.log('SHARE');
+  return (dispatch, getState) => {
+    const {
+      general: {
+        downloadFile: {pathDownload},
+      },
+    } = getState();
+    const mimeType = handleMime(pathDownload);
+    console.log(mimeType);
+    handleShare({mimeType, pathDownload});
   };
 };

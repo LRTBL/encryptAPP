@@ -3,6 +3,7 @@ import {
   SET_PUBLIC_KEY,
   SET_DECRYPTION_FILE,
   SET_ENCRYPTION_FILE,
+  SET_DOWNLOAD_FILE,
 } from './types';
 
 import initialState from './initialState';
@@ -29,6 +30,12 @@ export default (state = initialState, {type, payload}) => {
         ...state,
         encryptFile: {...payload},
       };
+    case SET_DOWNLOAD_FILE:
+      return {
+        ...state,
+        downloadFile: {...payload},
+      };
+
     default:
       return state;
   }

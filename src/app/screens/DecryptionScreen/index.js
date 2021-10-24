@@ -7,11 +7,12 @@ import {
   actionSendDecryptFile,
 } from '../../../modules/core/general/actions';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Loader, Button, InputFile} from '../../components';
+import {Loader, Button, InputFile, Modal} from '../../components';
 import {STYLES_GENERAL, COLORS} from '../../styles';
 
 const DecryptionScreen = ({
   fileName,
+  downloadName,
   actionSetDecryptFile: setDecryptFile,
   actionClearDecryptFile: clearDecryptFile,
   actionSendDecryptFile: sendDecryptFile,
@@ -38,12 +39,18 @@ const DecryptionScreen = ({
         />
       </ScrollView>
       <Loader color={COLORS.red} />
+      <Modal
+        color={COLORS.red}
+        buttonColor={COLORS.lightRed}
+        fileName={downloadName}
+      />
     </SafeAreaView>
   );
 };
 
 const mapStateToProps = state => ({
   fileName: state.general.decryptFile.name,
+  downloadName: state.general.downloadFile.name,
 });
 
 export default connect(mapStateToProps, {

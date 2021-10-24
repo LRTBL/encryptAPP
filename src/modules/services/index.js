@@ -40,3 +40,16 @@ export const servicePostSaveKeys = async ({privateKey, publicKey}) => {
     throw new Error('Ocurrio un error al guardar las llaves');
   }
 };
+
+export const serviceEncryptAndDecryptFile = async ({formData}) => {
+  try {
+    const response = await fetch(`${BASE_URL}/file`, {
+      method: 'POST',
+      body: formData,
+    });
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    throw new Error('Ocurrio un error al enviar archivo');
+  }
+};

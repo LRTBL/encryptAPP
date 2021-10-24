@@ -12,7 +12,9 @@ export default {
     type: null,
   },
   downloadFile: {
-    uri: '',
+    id: null,
     name: '',
+    type: null,
+    pathDownload: null,
   },
 };

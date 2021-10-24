@@ -89,6 +89,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 10,
   },
-  scroll: {paddingHorizontal: 20, paddingTop: 20},
-  footer: {height: '30%', paddingHorizontal: 20},
+  scroll: {paddingHorizontal: 30, paddingTop: 20},
+  footer: {height: '30%', paddingHorizontal: 30},
 });

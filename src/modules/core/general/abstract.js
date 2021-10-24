@@ -1,12 +1,15 @@
 import {showToast} from '../showToast';
-import {SET_LOADING} from '../ui/types';
+import {SET_LOADING, SET_MODAL} from '../ui/types';
+import {SET_DOWNLOAD_FILE} from './types';
+import {serviceEncryptAndDecryptFile} from '../../services';
+import {downloadFile} from '../../utils/downloadFile';
 
 export const sendFileAbstract = async ({
   publicKey,
   privateKey,
   file,
   dispatch,
-  postFile,
+  typeService,
 }) => {
   if (publicKey.length === 0 && privateKey.length === 0) {
     showToast({
@@ -21,25 +24,29 @@ export const sendFileAbstract = async ({
       uri,
       name,
     });
-    formData.append('type', 'encrypt');
+    formData.append('type', typeService);
     dispatch({type: SET_LOADING, payload: true});
     try {
-      // console.log(uri, name, type);
-      // console.log(privateKey, publicKey);
-      fetch('https://admin.lerietmall.net/v1/api/cypher/file', {
-        method: 'POST',
-        body: formData,
-        headers: {},
-      })
-        .then(res => res.json())
-        .then(data => console.log(data))
-        .catch(console.log);
-      // const res = await postFile({formData, privateKey, publicKey});
-      showToast({type: 1, text1: 'Se descargo el archivo encriptado'});
+      const res = await serviceEncryptAndDecryptFile({formData});
+      if (res.success) {
+        downloadFile({id: res.id, name})
+          .then(resp => {
+            const {fileTitle, pathDownload} = resp;
+            dispatch({
+              type: SET_DOWNLOAD_FILE,
+              payload: {id: res.id, name: fileTitle, type, pathDownload},
+            });
+            dispatch({type: SET_LOADING, payload: false});
+            dispatch({type: SET_MODAL, payload: true});
+          })
+          .catch(err => showToast({type: 2, text1: err}));
+      } else {
+        dispatch({type: SET_LOADING, payload: false});
+        showToast({type: 2, text1: res.message});
+      }
     } catch (err) {
-      console.log('error');
+      dispatch({type: SET_LOADING, payload: false});
       showToast({type: 2, text1: err.message});
     }
-    dispatch({type: SET_LOADING, payload: false});
   }
 };

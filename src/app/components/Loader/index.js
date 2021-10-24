@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Image, Modal, StyleSheet} from 'react-native';
+import {View, Image, Modal, StyleSheet, ActivityIndicator} from 'react-native';
 import {connect} from 'react-redux';
 import {loaderGif} from '../../../assets';
 
@@ -8,7 +8,8 @@ const Loader = ({loading}) => {
     <Modal transparent visible={loading}>
       <View style={styles.container}>
         <View style={styles.loader}>
-          <Image source={loaderGif} style={styles.gif} />
+          <ActivityIndicator size={100} color="#03A062" />
+          {/* <Image source={loaderGif} style={styles.gif} /> */}
         </View>
       </View>
     </Modal>
